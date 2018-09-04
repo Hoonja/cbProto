@@ -1,0 +1,26 @@
+<div>
+  <form class="login-container" #userForm="ngForm" (ngSubmit)="enterTheRoom(userForm)">
+    <mat-form-field>
+      <mat-label>Room ID</mat-label>
+      <input matInput placeholder="방번호 입력" id="roomId">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>가로</mat-label>
+      <input matInput placeholder="Max 30">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>세로</mat-label>
+      <input matInput placeholder="Max 30">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>User ID</mat-label>
+      <input matInput placeholder="게이머의 ID를 입력하세요">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Money</mat-label>
+      <input matInput placeholder="넉넉하게 입력ㅋ">
+    </mat-form-field>
+    <button type="submit" mat-raised-button color="primary">입장</button>
+    <button mat-raised-button color="accent" (click)="enterTheRoom(userForm)">입장</button>
+  </form>  
+</div>
