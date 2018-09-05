@@ -28,9 +28,6 @@
       <mat-label>Money</mat-label>
       <input matInput placeholder="넉넉하게 입력ㅋ" id="userMoney" [(ngModel)]="user.money" name="userMoney" required>
     </mat-form-field>
-    {{result}}
-    <button type="submit" mat-raised-button color="primary" [disabled]="!gameForm.form.valid">입장</button>
-    <button mat-raised-button color="accent" (click)="enterTheRoom();gameForm.reset()">입장</button>
+    <button type="submit" mat-flat-button color="primary" [disabled]="!gameForm.form.valid">입장</button>
   </form>
-  <a routerLink="/main/10">메인으로 이동</a>
 </div>

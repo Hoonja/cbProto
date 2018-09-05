@@ -1,0 +1,17 @@
+.container {
+  width: 100%;
+}
+
+.box-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.box-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.item {
+  border: 1px solid greenyellow;
+}

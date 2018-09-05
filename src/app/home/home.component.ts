@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Room } from '../models/room';
 import { User } from '../models/user';
-import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -13,7 +13,7 @@ export class HomeComponent implements OnInit {
   user: User = new User('', 'red', 1000.0);
   teams = ['red', 'yello', 'green', 'blue'];
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
   }
@@ -33,5 +33,7 @@ export class HomeComponent implements OnInit {
     if (form) {
       console.log('HomeComponent.enterTheRoom.form', form.form.controls['roomId'].value);
     }
+
+    this.router.navigate(['/main', this.room.id]);
   }
 }
