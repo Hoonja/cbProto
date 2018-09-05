@@ -8,6 +8,7 @@ import {
   MatButtonModule,
   MatFormFieldModule,
   MatInputModule,
+  MatSelectModule,
   MatToolbarModule
 } from '@angular/material';
 
@@ -33,7 +34,7 @@ const appRoutes: Routes = [
   imports: [
     RouterModule.forRoot(
       appRoutes,
-      { enableTracing: true }
+      // { enableTracing: true }
     ),
     BrowserModule,
     BrowserAnimationsModule,
@@ -42,6 +43,7 @@ const appRoutes: Routes = [
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
+    MatSelectModule,
     MatToolbarModule
   ],
   providers: [],

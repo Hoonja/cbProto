@@ -13,8 +13,7 @@ export class MainComponent implements OnInit {
   ngOnInit() {
     console.log('MainComponent.routerState', this.router.routerState);
     console.log('MainComponent.route', this.route);
+    console.log('MainComponent.route.paramMap', this.route.paramMap);
     console.log('MainComponent.roomId', this.route.snapshot.params['roomId']);
   }
-
-
 }

@@ -1,26 +1,36 @@
 <div>
-  <form class="login-container" #userForm="ngForm" (ngSubmit)="enterTheRoom(userForm)">
+  <form class="login-container" #gameForm="ngForm" (ngSubmit)="enterTheRoom(gameForm)">
     <mat-form-field>
       <mat-label>Room ID</mat-label>
-      <input matInput placeholder="방번호 입력" id="roomId">
+      <input matInput placeholder="방번호 입력" id="roomId" [(ngModel)]="room.id" name="roomId" required #roomIdTrack="ngModel">      
     </mat-form-field>
     <mat-form-field>
       <mat-label>가로</mat-label>
-      <input matInput placeholder="Max 30">
+      <input matInput placeholder="Max 30" id="mapWidth" [(ngModel)]="room.width" name="mapWidth" required>
     </mat-form-field>
     <mat-form-field>
       <mat-label>세로</mat-label>
-      <input matInput placeholder="Max 30">
+      <input matInput placeholder="Max 30" id="mapHeight" [(ngModel)]="room.height" name="mapHeight" required>
     </mat-form-field>
     <mat-form-field>
       <mat-label>User ID</mat-label>
-      <input matInput placeholder="게이머의 ID를 입력하세요">
+      <input matInput placeholder="ID를 입력하세요" id="userId" [(ngModel)]="user.id" name="userId" required>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>진영을 선택하세요</mat-label>
+      <mat-select placeholder="진영을 선택하세요" id="team" [(ngModel)]="user.team" name="team" required>
+        <mat-option *ngFor="let team of teams" [value]="team">
+          {{ team }}
+        </mat-option>
+      </mat-select>
     </mat-form-field>
     <mat-form-field>
       <mat-label>Money</mat-label>
-      <input matInput placeholder="넉넉하게 입력ㅋ">
+      <input matInput placeholder="넉넉하게 입력ㅋ" id="userMoney" [(ngModel)]="user.money" name="userMoney" required>
     </mat-form-field>
-    <button type="submit" mat-raised-button color="primary">입장</button>
-    <button mat-raised-button color="accent" (click)="enterTheRoom(userForm)">입장</button>
-  </form>  
+    {{result}}
+    <button type="submit" mat-raised-button color="primary" [disabled]="!gameForm.form.valid">입장</button>
+    <button mat-raised-button color="accent" (click)="enterTheRoom();gameForm.reset()">입장</button>
+  </form>
+  <a routerLink="/main/10">메인으로 이동</a>
 </div>
