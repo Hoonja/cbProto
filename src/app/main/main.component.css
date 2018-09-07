@@ -1,17 +1,39 @@
-.container {
-  width: 100%;
-}
-
-.box-row {
+.main-container {
+  /* width: 100%; */
   display: flex;
   flex-direction: row;
+  min-width: 900px;
+  min-height: 600px;
 }
 
-.box-col {
+.game-board {
+  min-width: 600px;
+  flex: 1;
+}
+
+.game-sidebar {
   display: flex;
   flex-direction: column;
+  min-width: 300px;
 }
 
 .item {
   border: 1px solid greenyellow;
+}
+
+.sidebar-my-info {
+  height: 150px;
+}
+
+.sidebar-cell-info {
+  height: 150px;
+}
+
+.sidebar-chat {
+  min-height: 300px;
+  flex: 1;
+}
+
+app-my-info {
+  min-height: 150px;
 }

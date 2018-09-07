@@ -1,17 +1,17 @@
 import { Component, OnInit, HostBinding } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { slideInDownAnimation } from '../animations';
+// import { slideInDownAnimation } from '../animations';
 
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.css'],
-  animations: [slideInDownAnimation]
+  // animations: [slideInDownAnimation]
 })
 export class MainComponent implements OnInit {
-  @HostBinding('@routeAnimation') routeAnimation = true;
-  @HostBinding('style.display')   display = 'block';
-  @HostBinding('style.position')  position = 'absolute';
+  // @HostBinding('@routeAnimation') routeAnimation = true;
+  // @HostBinding('style.display')   display = 'block';
+  // @HostBinding('style.position')  position = 'absolute';
 
   constructor(private router: Router, private route: ActivatedRoute) { }
 

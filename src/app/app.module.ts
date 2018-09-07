@@ -16,6 +16,10 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { MainComponent } from './main/main.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { BoardComponent } from './board/board.component';
+import { MyInfoComponent } from './my-info/my-info.component';
+import { CellInfoComponent } from './cell-info/cell-info.component';
+import { ChatComponent } from './chat/chat.component';
 
 const appRoutes: Routes = [
   { path: 'home',         component: HomeComponent },
@@ -29,7 +33,11 @@ const appRoutes: Routes = [
     AppComponent,
     HomeComponent,
     MainComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    BoardComponent,
+    MyInfoComponent,
+    CellInfoComponent,
+    ChatComponent
   ],
   imports: [
     RouterModule.forRoot(

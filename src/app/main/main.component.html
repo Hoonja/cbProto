@@ -8,24 +8,19 @@
   </mat-menu>
 </mat-toolbar>
 
-<button mat-button color="primary" (click)="goHome()">홈으로</button>
-
-<div class="container">
-  <div class="box-row">
-    <div class="box-col">
-      <div class="item">one</div>
-      <div class="item">two</div>
-      <div class="item">three</div>
+<div class="main-container box-row">
+  <div class="game-board item">
+    <app-board></app-board>
+  </div>
+  <div class="game-sidebar">
+    <div class="item sidebar-my-info">
+      <app-my-info></app-my-info>
     </div>
-    <div class="box-col">
-      <div class="item">one</div>
-      <div class="item">two</div>
+    <div class="item sidebar-cell-info">
+      <app-cell-info></app-cell-info>
     </div>
-    <div class="box-col">
-      <div class="item">one</div>
-      <div class="item">two</div>
-      <div class="item">three</div>
-      <div class="item">four/div>
-      </div>
+    <div class="item sidebar-chat">
+      <app-chat></app-chat>
     </div>
+  </div>
 </div>
