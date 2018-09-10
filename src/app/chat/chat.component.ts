@@ -12,6 +12,11 @@ export class ChatComponent implements OnInit {
 
   ngOnInit() {
     this.remote.sayHello();
+    this.remote.onChat().subscribe(this.handleMsg);
+  }
+
+  handleMsg(msg) {
+    console.log('got a chat(in Chat): ' + msg);
   }
 
 }
