@@ -34,6 +34,17 @@ export class HomeComponent implements OnInit {
       console.log('HomeComponent.enterTheRoom.form', form.form.controls['roomId'].value);
     }
 
-    this.router.navigate(['/main', this.room.id]);
+    this.router.navigate(['/main/' + this.room.id, {
+      room: JSON.stringify({
+        id: this.room.id,
+        width: this.room.width,
+        height: this.room.height
+      }),
+      user: JSON.stringify({
+        id: this.user.id,
+        team: this.user.team,
+        money: this.user.money
+      })
+    }]);
   }
 }

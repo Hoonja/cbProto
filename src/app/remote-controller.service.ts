@@ -11,7 +11,8 @@ const Type = {
 };
 
 const Cmd = {
-  ROOM: 'ROOM'
+  ROOM: 'ROOM',
+  LOG: 'LOG'
 };
 
 @Injectable({
@@ -51,10 +52,9 @@ export class RemoteControllerService {
     });
   }
 
-  enterRoom(roomId: string, data: any) {
+  enterRoom(data: any) {
     this.sendMessage({
       cmd: Cmd.ROOM,
-      roomId: roomId,
       data: data
     });
   }

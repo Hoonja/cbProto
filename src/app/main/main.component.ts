@@ -1,6 +1,8 @@
 import { Component, OnInit, HostBinding } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { RemoteControllerService } from '../remote-controller.service';
+import { Room } from '../models/room';
+import { User } from '../models/user';
 // import { slideInDownAnimation } from '../animations';
 
 @Component({
@@ -13,16 +15,27 @@ export class MainComponent implements OnInit {
   // @HostBinding('@routeAnimation') routeAnimation = true;
   // @HostBinding('style.display')   display = 'block';
   // @HostBinding('style.position')  position = 'absolute';
-  roomId: string;
+  room: Room;
+  user: User;
 
   constructor(private router: Router, private route: ActivatedRoute, private remote: RemoteControllerService) { }
 
   ngOnInit() {
-    console.log('MainComponent.roomId', this.route.snapshot.params['roomId']);
-    console.log('MainComponent.roomId.inParamMap', this.route.snapshot.paramMap.get('roomId'));
-    this.roomId = this.route.snapshot.params['roomId'];
-    this.remote.onMessage().subscribe(this.handleMsg);
-    this.remote.enterRoom(this.roomId, {foo: 'bar'});
+    try {
+      this.room = JSON.parse(this.route.snapshot.paramMap.get('room'));
+      this.user = JSON.parse(this.route.snapshot.paramMap.get('user'));
+      console.log('main.room.navigateParam', this.room);
+      console.log('main.user.navigateParam', this.user);
+
+      this.remote.onMessage().subscribe(this.handleMsg);
+      this.remote.enterRoom({
+        room: this.room,
+        user: this.user
+      });
+    } catch (e) {
+      alert(e);
+      console.error(e);
+    }
   }
 
   goHome() {
