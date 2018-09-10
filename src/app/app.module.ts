@@ -20,6 +20,7 @@ import { BoardComponent } from './board/board.component';
 import { MyInfoComponent } from './my-info/my-info.component';
 import { CellInfoComponent } from './cell-info/cell-info.component';
 import { ChatComponent } from './chat/chat.component';
+import { RemoteControllerService } from './remote-controller.service';
 
 const appRoutes: Routes = [
   { path: 'home',         component: HomeComponent },
@@ -54,7 +55,7 @@ const appRoutes: Routes = [
     MatSelectModule,
     MatToolbarModule
   ],
-  providers: [],
+  providers: [RemoteControllerService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
