@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { RemoteControllerService } from '../remote-controller.service';
 
 @Component({
   selector: 'app-chat',
@@ -8,15 +7,7 @@ import { RemoteControllerService } from '../remote-controller.service';
 })
 export class ChatComponent implements OnInit {
 
-  constructor(private remote: RemoteControllerService) { }
+  constructor() { }
 
-  ngOnInit() {
-    this.remote.sayHello();
-    this.remote.onChat().subscribe(this.handleMsg);
-  }
-
-  handleMsg(msg) {
-    console.log('got a chat(in Chat): ' + msg);
-  }
-
+  ngOnInit() {}
 }

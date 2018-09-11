@@ -1,8 +1,9 @@
 import { Component, OnInit, HostBinding } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { RemoteControllerService } from '../remote-controller.service';
+import { RemoteControllerService, Res } from '../remote-controller.service';
 import { Room } from '../models/room';
 import { User } from '../models/user';
+import { Chat } from '../models/chat';
 // import { slideInDownAnimation } from '../animations';
 
 @Component({
@@ -24,12 +25,13 @@ export class MainComponent implements OnInit {
     try {
       this.room = JSON.parse(this.route.snapshot.paramMap.get('room'));
       this.user = JSON.parse(this.route.snapshot.paramMap.get('user'));
-      console.log('main.room.navigateParam', this.room);
-      console.log('main.user.navigateParam', this.user);
+      // console.log('main.room.navigateParam', this.room);
+      // console.log('main.user.navigateParam', this.user);
 
       this.remote.onConnect().subscribe(this.handleConnect.bind(this));
       this.remote.onDisconnect().subscribe(this.handleDisconnect.bind(this));
       this.remote.onMessage().subscribe(this.handleMsg);
+      this.remote.onChat().subscribe(this.handleChat);
     } catch (e) {
       alert(e);
       console.error(e);
@@ -62,6 +64,10 @@ export class MainComponent implements OnInit {
   }
 
   handleMsg(msg) {
-    console.log('got a chat(in main): ' + msg);
+    console.log('MainComponent.handleMsg: ', msg);
+  }
+
+  handleChat(chat: Chat) {
+    console.log(`MainComponent.handleChat: userId(${chat.userId}), roomId(${chat.roomId}), text(${chat.text})`);
   }
 }

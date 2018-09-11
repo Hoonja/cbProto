@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { RemoteControllerService } from '../remote-controller.service';
 
 @Component({
   selector: 'app-cell-info',
@@ -8,14 +7,7 @@ import { RemoteControllerService } from '../remote-controller.service';
 })
 export class CellInfoComponent implements OnInit {
 
-  constructor(private remote: RemoteControllerService) { }
+  constructor() {}
 
-  ngOnInit() {
-    this.remote.onMessage().subscribe(this.handleMsg);
-  }
-
-  handleMsg(msg) {
-    console.log('got a chat(in Cell): ' + msg);
-  }
-
+  ngOnInit() {}
 }
