@@ -21,14 +21,16 @@ const Cmd = {
 export class RemoteControllerService {
   socket: SocketIOClient.Socket;
   id: string;
+  canPlay: boolean;
 
   constructor() {
     console.log('Connecting to remote server...');
+    this.canPlay = false;
     this.socket = io(SERVER_URL);
-    this.socket.on(Type.ACK, id => {
-      this.id = id;
-      console.log('Connection accepted, socket.id=' + this.id);
-    });
+    // this.socket.on(Type.ACK, id => {
+    //   this.id = id;
+    //   console.log('Connection accepted, socket.id=' + this.id);
+    // });
   }
 
   sayHello() {
@@ -38,6 +40,23 @@ export class RemoteControllerService {
   sendMessage(msg: any) {
     // this.socket.emit(Type.MSG, JSON.stringify(msg));
     this.socket.emit(Type.MSG, msg);
+  }
+
+  onConnect() {
+    return Observable.create(observer => {
+      this.socket.on(Type.ACK, id => {
+        this.id = id;
+        console.log('Connection accepted, socket.id=' + this.id);
+        observer.next(id);
+      });
+      // this.socket.on('connection', msg => observer.next(msg));
+    });
+  }
+
+  onDisconnect() {
+    return Observable.create(observer => {
+      this.socket.on('disconnect', msg => observer.next(msg));
+    });
   }
 
   onChat() {
@@ -57,5 +76,9 @@ export class RemoteControllerService {
       cmd: Cmd.ROOM,
       data: data
     });
+  }
+
+  toggleCanPlay(canPlay: boolean) {
+    this.canPlay = canPlay;
   }
 }

@@ -27,11 +27,9 @@ export class MainComponent implements OnInit {
       console.log('main.room.navigateParam', this.room);
       console.log('main.user.navigateParam', this.user);
 
+      this.remote.onConnect().subscribe(this.handleConnect.bind(this));
+      this.remote.onDisconnect().subscribe(this.handleDisconnect.bind(this));
       this.remote.onMessage().subscribe(this.handleMsg);
-      this.remote.enterRoom({
-        room: this.room,
-        user: this.user
-      });
     } catch (e) {
       alert(e);
       console.error(e);
@@ -39,7 +37,28 @@ export class MainComponent implements OnInit {
   }
 
   goHome() {
-    this.router.navigate(['/home', { foo: 'foo', bar: 'bar' }]);
+    this.router.navigate(['/home']);
+  }
+
+  enterRoom() {
+    this.remote.enterRoom({
+      room: this.room,
+      user: this.user
+    });
+  }
+
+  foo() {
+    console.log('foo');
+  }
+
+  handleConnect(msg) {
+    console.log('MainComponent.handleConnect', msg);
+    this.enterRoom();
+  }
+
+  handleDisconnect(msg) {
+    console.warn('MainComponent.handleDisconnect', msg);
+    this.foo();
   }
 
   handleMsg(msg) {
