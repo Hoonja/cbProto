@@ -1,4 +1,5 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Room } from '../models/room';
 
 @Component({
   selector: 'app-board',
@@ -7,6 +8,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 })
 export class BoardComponent implements OnInit {
 
+  @Input() room: Room;
   @Output() select = new EventEmitter();
 
   constructor() {}

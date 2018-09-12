@@ -10,7 +10,7 @@
 
 <div class="main-container box-row">
   <div class="game-board item">
-    <app-board (select)="selectCell($event)"></app-board>
+    <app-board [room]="room" (select)="selectCell($event)"></app-board>
   </div>
   <div class="game-sidebar">
     <div class="item sidebar-my-info">
@@ -20,7 +20,7 @@
       <app-cell-info [cell]="selectedCell" (conquer)="conquerCell($event)"></app-cell-info>
     </div>
     <div class="item sidebar-chat">
-      <app-chat (chatFired)="sendChat($event)" [chatList]="this.chatList"></app-chat>
+      <app-chat (chatFired)="sendChat($event)" [chatList]="chatList"></app-chat>
     </div>
   </div>
 </div>

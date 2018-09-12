@@ -104,7 +104,7 @@ export class MainComponent implements OnInit {
 
   updateCellInfo(id, cell) {
     this.room.cells[id] = cell;
-    if (this.selectedCell.id === id) {
+    if (this.selectedCell && this.selectedCell.id === id) {
       this.selectedCell = cell;
     }
   }
