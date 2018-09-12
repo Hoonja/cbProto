@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import * as io from 'socket.io-client';
 import { Observable } from 'rxjs';
+import { Chat } from './models/chat';
+import { Cell } from './models/cell';
 
 
 const SERVER_URL = 'http://localhost:3000';
@@ -14,10 +16,14 @@ export const Cmd = {
   ROOM: 'ROOM',
   ROOM_NEWUSER: 'ROOM_NEWUSER',
   ROOM_EXITUSER: 'ROOM_EXITUSER',
+  CONQUER_CELL: 'CONQUER_CELL'
 };
 
 export const Res = {
   ROOM_INFO: 'ROOM_INFO',
+  CONQUER_CELL_SUCCESS: 'CONQUER_CELL_SUCCESS',
+  CONQUER_CELL_FAILED: 'CONQUER_CELL_FAILED',
+  UPDATE_CELL: 'UPDATE_CELL',
   LOG: 'LOG'
 };
 
@@ -88,18 +94,18 @@ export class RemoteControllerService {
 
   sendMsg(msg: any) {
     // this.socket.emit(Type.MSG, JSON.stringify(msg));
-    this.socket.emit(Type.MSG, msg);
+    this.socket.emit(Type.MSG, { userId: this.userId, roomId: this.roomId, ...msg });
   }
 
   sendChat(chat: string) {
-    this.socket.emit(Type.CHAT, {
-      userId: this.userId,
-      roomId: this.roomId,
-      text: chat
-    });
+    this.socket.emit(Type.CHAT, new Chat(this.userId, this.roomId, chat));
   }
 
-  conquerCell(cellId: number, cost: number) {
-    console.log(`RemoteControllerService.conquerCell: cellId(${cellId}), cost(${cost})`);
+  conquerCell(cell: Cell) {
+    console.log(`RemoteControllerService.conquerCell: cellId(${cell.id}), cost(${cell.cost})`);
+    this.sendMsg({
+      cmd: Cmd.CONQUER_CELL,
+      data: cell
+    });
   }
 }

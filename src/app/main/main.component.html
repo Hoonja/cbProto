@@ -10,17 +10,17 @@
 
 <div class="main-container box-row">
   <div class="game-board item">
-    <app-board></app-board>
+    <app-board (select)="selectCell($event)"></app-board>
   </div>
   <div class="game-sidebar">
     <div class="item sidebar-my-info">
-      <app-my-info></app-my-info>
+      <app-my-info [user]="user"></app-my-info>
     </div>
     <div class="item sidebar-cell-info">
-      <app-cell-info></app-cell-info>
+      <app-cell-info [cell]="selectedCell" (conquer)="conquerCell($event)"></app-cell-info>
     </div>
     <div class="item sidebar-chat">
-      <app-chat></app-chat>
+      <app-chat (chatFired)="sendChat($event)" [chatList]="this.chatList"></app-chat>
     </div>
   </div>
 </div>

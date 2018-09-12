@@ -1,3 +1,8 @@
-<li>
-  
-</li>
+<div id="chat-list-container">
+  <ul id="chat-list">
+    <li *ngFor="let chat of chatList">{{ chat }}</li>
+  </ul>
+</div>
+<div id="chat-ui-container">
+  <button mat-flat-button color="primary" (click)="sendChat()">send</button>
+</div>

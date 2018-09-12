@@ -1,3 +1,31 @@
-<p>
-  cell-info works!
-</p>
+<div class="panel-container">
+  <h3 class="panel-title">Cell Info.</h3>
+  <div *ngIf="cell">
+    <table id="cell-info">
+      <tr>
+        <td class="first-column">Index</td>
+        <td>{{ cell.id }}</td>
+      </tr>
+      <tr>
+        <td class="first-column">Owner</td>
+        <td>{{ cell.ownerId }}</td>
+      </tr>
+      <tr>
+        <td class="first-column">Combat Cnt.</td>
+        <td>{{ cell.combatCount }}</td>
+      </tr>
+      <tr>
+        <td class="first-column">Cost</td>
+        <td>{{ cell.cost }}</td>
+      </tr>
+    </table>
+    <div style="text-align: center;">
+      <button mat-flat-button color="warn" (click)="conquerCell()">Conquer</button>
+    </div>
+  </div>
+  <div *ngIf="!cell">
+    <p>
+      셀을 선택하면 정보가 표시됩니다.
+    </p>
+  </div>  
+</div>

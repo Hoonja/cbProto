@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Cell } from '../models/cell';
 
 @Component({
   selector: 'app-cell-info',
@@ -7,7 +8,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CellInfoComponent implements OnInit {
 
+  @Input() cell: Cell;
+  @Output() conquer = new EventEmitter();
+
   constructor() {}
 
   ngOnInit() {}
+
+  conquerCell() {
+    const val = prompt('공격에 사용할 비용을 입력하세요(' + this.cell.cost + ' 이상 필요)');
+    console.log('CellInfoComponent.conquerCell val: ' + val);
+    if (this.cell.cost >= parseInt(val, 10)) {
+      alert('좀 더 쓰세요.');
+      return;
+    } else {
+      this.conquer.emit({
+        cellId: this.cell.id,
+        cost: parseInt(val, 10)
+      });
+    }
+  }
 }

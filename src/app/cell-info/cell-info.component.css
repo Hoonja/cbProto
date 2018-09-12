@@ -1,0 +1,16 @@
+#cell-info {
+  width: 100%;
+}
+
+.panel-container {
+  padding-left: 20px;
+}
+
+.panel-title {
+  text-align: center;
+}
+
+.first-column {
+  width: 40%;
+  font-weight: bold;
+}

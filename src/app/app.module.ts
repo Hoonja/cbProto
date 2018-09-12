@@ -9,6 +9,7 @@ import {
   MatFormFieldModule,
   MatInputModule,
   MatSelectModule,
+  MatTableModule,
   MatToolbarModule
 } from '@angular/material';
 
@@ -53,6 +54,7 @@ const appRoutes: Routes = [
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
+    MatTableModule,
     MatToolbarModule
   ],
   providers: [RemoteControllerService],
