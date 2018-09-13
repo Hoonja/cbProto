@@ -142,6 +142,12 @@ export class MainComponent implements OnInit {
   }
 
   conquerCell(e) {
+    console.log(e.cellId + '번 셀을 정복하려함');
+    console.log('type of e.cellId: ' + typeof e.cellId);
+    console.log('type of this.room.width: ' + typeof this.room.width);
+    if (typeof this.room.width === 'string') {
+      this.room.width = parseInt(this.room.width, 10);
+    }
     let canAttack = false;
     if (this.firstAttacked) {
       const rowId = Math.floor(e.cellId / this.room.width);
@@ -185,6 +191,7 @@ export class MainComponent implements OnInit {
         }
       }
 
+      console.log('확인 범위의 셀', arounds);
       for (let i = 0; i < arounds.length; i++) {
         if (arounds[i] < 0 || arounds[i] >= this.room.width * this.room.height) {
           console.log('범위를 벗어나는 셀(index:' + arounds[i] + ')이라 연산에서 제외');

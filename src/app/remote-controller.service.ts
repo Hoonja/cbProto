@@ -5,7 +5,7 @@ import { Chat } from './models/chat';
 import { Cell } from './models/cell';
 
 
-const SERVER_URL = 'http://localhost:3000';
+const SERVER_URL = 'http://192.168.10.56:3000';
 export const Type = {
   ACK: 'ACK',
   CHAT: 'CHAT',
