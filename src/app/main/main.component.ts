@@ -88,6 +88,7 @@ export class MainComponent implements OnInit {
       case Res.CONQUER_CELL_FAILED:
         this.updateCellInfo(msg.data.cell);
         alert('정복에 실패했습니다. ㅠㅠ');
+        this.chatList.push(msg.data.cell.id + '번 땅 정복에 실패했습니다');
         break;
       case Res.CONQUER_CELL_SUCCESS:
         this.updateCellInfo(msg.data.cell);
@@ -95,11 +96,25 @@ export class MainComponent implements OnInit {
         this.room.value = this.room.value + msg.data.cell.cost;
         alert('정복 성공! ^ㅁ^');
         this.firstAttacked = true;
+        this.chatList.push(msg.data.cell.id + '번 땅 정복에 성공했습니다');
         break;
       case Res.UPDATE_CELL:
         this.updateCellInfo(msg.data.cell);
         this.room.value = msg.data.roomValue;
         console.log('방정보 갱신', this.room);
+        const cell = msg.data.cell;
+        this.chatList.push(cell.ownerId + '님이 ' + cell.id + '번 땅을 정복했습니다');
+        break;
+      case Res.GOTO_FINAL:
+        if (msg.data.room.id === this.room.id) {
+          this.chatList.push('잠시후 전투가 끝납니다. (남은 턴수: ' + msg.data.room.turnsLeft + ')');
+        }
+        break;
+      case Res.GAME_OVER:
+        if (msg.data.room.id === this.room.id) {
+          alert('전투가 끝났습니다(총 방에 적립된 비용: ' + msg.data.room.value + ')');
+          this.chatList.push('전투가 끝났습니다(총 방에 적립된 비용: ' + msg.data.room.value + ')');
+        }
         break;
       default:
         console.warn('MainComponent.handleMsg: Unhandled Msg', msg);
