@@ -7,7 +7,7 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 })
 export class ChatComponent implements OnInit {
 
-  @Input() chatList: [];
+  @Input() chatList: any;
   @Output() chatFired = new EventEmitter();
 
   constructor() { }

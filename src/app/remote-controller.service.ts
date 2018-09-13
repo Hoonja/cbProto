@@ -38,7 +38,7 @@ export class RemoteControllerService {
   canPlay: boolean;
 
   constructor() {
-    console.log('Connecting to remote server...');
+    // console.log('Connecting to remote server...');
     this.canPlay = false;
     this.socket = io(SERVER_URL);
   }
@@ -102,7 +102,7 @@ export class RemoteControllerService {
   }
 
   conquerCell(cell: Cell) {
-    console.log(`RemoteControllerService.conquerCell: cellId(${cell.id}), cost(${cell.cost})`);
+    // console.log(`RemoteControllerService.conquerCell: cellId(${cell.id}), cost(${cell.cost})`);
     this.sendMsg({
       cmd: Cmd.CONQUER_CELL,
       data: cell

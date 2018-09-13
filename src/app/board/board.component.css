@@ -1,0 +1,18 @@
+.board-row {
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+}
+
+.even {
+  padding-left: 30px;
+}
+
+.odd {
+  padding-right: 30px;
+}
+
+.board-cell {
+  flex: 1;
+  border: 1px blue solid;
+}

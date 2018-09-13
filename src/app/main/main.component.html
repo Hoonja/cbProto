@@ -10,7 +10,9 @@
 
 <div class="main-container box-row">
   <div class="game-board item">
-    <app-board [room]="room" (select)="selectCell($event)"></app-board>
+    <ng-container *ngIf="room">
+      <app-board [room]="room" (select)="selectCell($event)"></app-board>
+    </ng-container>    
   </div>
   <div class="game-sidebar">
     <div class="item sidebar-my-info">

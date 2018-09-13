@@ -16,9 +16,9 @@ export class CellInfoComponent implements OnInit {
   ngOnInit() {}
 
   conquerCell() {
-    const val = prompt('공격에 사용할 비용을 입력하세요(' + this.cell.cost + ' 이상 필요)');
+    const val = prompt('공격에 사용할 비용을 입력하세요(' + this.cell.cost + ' 초과 필요)');
     console.log('CellInfoComponent.conquerCell val: ' + val);
-    if (this.cell.cost >= parseInt(val, 10)) {
+    if (!val || this.cell.cost >= parseInt(val, 10)) {
       alert('좀 더 쓰세요.');
       return;
     } else {

@@ -17,16 +17,18 @@ export class MainComponent implements OnInit {
   // @HostBinding('@routeAnimation') routeAnimation = true;
   // @HostBinding('style.display')   display = 'block';
   // @HostBinding('style.position')  position = 'absolute';
+  tempRoom: Room;
   room: Room;
   user: User;
   chatList = [];
   selectedCell: Cell;
+  firstAttacked = false;
 
   constructor(private router: Router, private route: ActivatedRoute, private remote: RemoteControllerService) { }
 
   ngOnInit() {
     try {
-      this.room = JSON.parse(this.route.snapshot.paramMap.get('room'));
+      this.tempRoom = JSON.parse(this.route.snapshot.paramMap.get('room'));
       this.user = JSON.parse(this.route.snapshot.paramMap.get('user'));
       this.selectedCell = null;
       // console.log('main.room.navigateParam', this.room);
@@ -48,7 +50,7 @@ export class MainComponent implements OnInit {
 
   enterRoom() {
     this.remote.enterRoom({
-      room: this.room,
+      room: this.tempRoom,
       user: this.user
     });
   }
@@ -70,19 +72,34 @@ export class MainComponent implements OnInit {
   handleMsg(msg) {
     switch (msg.cmd) {
       case Res.ROOM_INFO:
+        for (let i = 0; i < msg.data.room.cells.length; i++) {
+          if (!msg.data.room.cells[i].occupied) {
+            msg.data.room.cells[i] = new Cell(i, '', '#eeeeee', 10, 0, false);
+          }
+        }
         this.room = msg.data.room;
         console.log('MainComponent.handleMsg: this.room', this.room);
+        const ownedCell = this.room.cells.find(item => item.team === this.user.team);
+        if (ownedCell) {
+          this.firstAttacked = true;
+          console.log('이미 정복한 셀이 있음');
+        }
         break;
       case Res.CONQUER_CELL_FAILED:
-        this.updateCellInfo(msg.data.id, msg.data);
+        this.updateCellInfo(msg.data.cell);
         alert('정복에 실패했습니다. ㅠㅠ');
         break;
       case Res.CONQUER_CELL_SUCCESS:
-        this.updateCellInfo(msg.data.id, msg.data);
+        this.updateCellInfo(msg.data.cell);
+        this.user.money = this.user.money - msg.data.cell.cost;
+        this.room.value = this.room.value + msg.data.cell.cost;
         alert('정복 성공! ^ㅁ^');
+        this.firstAttacked = true;
         break;
       case Res.UPDATE_CELL:
-        this.updateCellInfo(msg.data.id, msg.data);
+        this.updateCellInfo(msg.data.cell);
+        this.room.value = msg.data.roomValue;
+        console.log('방정보 갱신', this.room);
         break;
       default:
         console.warn('MainComponent.handleMsg: Unhandled Msg', msg);
@@ -102,17 +119,83 @@ export class MainComponent implements OnInit {
     this.remote.sendChat(text);
   }
 
-  updateCellInfo(id, cell) {
-    this.room.cells[id] = cell;
-    if (this.selectedCell && this.selectedCell.id === id) {
+  updateCellInfo(cell) {
+    this.room.cells[cell.id] = cell;
+    if (this.selectedCell && this.selectedCell.id === cell.id) {
       this.selectedCell = cell;
     }
   }
 
   conquerCell(e) {
-    console.log('MainComponent.conquerCell', e);
+    let canAttack = false;
+    if (this.firstAttacked) {
+      const rowId = Math.floor(e.cellId / this.room.width);
+      const aroundsOdd = [
+        e.cellId - this.room.width - 1,
+        e.cellId - this.room.width,
+        e.cellId - 1,
+        e.cellId + 1,
+        e.cellId + this.room.width - 1,
+        e.cellId + this.room.width
+      ];
+      const aroundsEven = [
+        e.cellId - this.room.width,
+        e.cellId - this.room.width + 1,
+        e.cellId - 1,
+        e.cellId + 1,
+        e.cellId + this.room.width,
+        e.cellId + this.room.width + 1
+      ];
+      const isEven = rowId % 2 === 0;
+      const isFirst = e.cellId % this.room.width === 0;
+      const isLast = (e.cellId + 1) % this.room.width === 0;
+      // const arounds = isEven ? aroundsEven : aroundsOdd;
+      let arounds;
+
+      if (isEven) {
+        if (isFirst) {
+          arounds = [aroundsEven[0], aroundsEven[1], aroundsEven[3], aroundsEven[4], aroundsEven[5]];
+        } else if (isLast) {
+          arounds = [aroundsEven[0], aroundsEven[2], aroundsEven[4]];
+        } else {
+          arounds = aroundsEven;
+        }
+      } else {
+        if (isFirst) {
+          arounds = [aroundsOdd[1], aroundsOdd[3], aroundsOdd[5]];
+        } else if (isLast) {
+          arounds = [aroundsOdd[0], aroundsOdd[1], aroundsOdd[2], aroundsOdd[4], aroundsOdd[5]];
+        } else {
+          arounds = aroundsOdd;
+        }
+      }
+
+      for (let i = 0; i < arounds.length; i++) {
+        if (arounds[i] < 0 || arounds[i] >= this.room.width * this.room.height) {
+          console.log('범위를 벗어나는 셀(index:' + arounds[i] + ')이라 연산에서 제외');
+          continue;
+        }
+        if (this.room.cells[arounds[i]].team === this.user.team) {
+          canAttack = true;
+          break;
+        }
+      }
+    } else {
+      canAttack = true;
+    }
+
+    console.log(`MainComponent.conquerCell: firstAttack=${this.firstAttacked}, canAttack=${canAttack}`);
+    if (!canAttack) {
+      alert('정복하려면, 인접한 셀을 먼저 정복해야 합니다.');
+      return;
+    }
+
     // this.remote.conquerCell(e.cell);
-    this.remote.conquerCell(new Cell(e.cellId, this.user.id, this.user.team, e.cost, 0, true));
+    if (this.user.money - e.cost >= 0) {
+      this.remote.conquerCell(new Cell(e.cellId, this.user.id, this.user.team, e.cost, 0, true));
+    } else {
+      alert('현재 소지한 비용으로는 공격할 수 없습니다.');
+    }
 
     // this.remote.conquerCell(new Cell(1, 'hoonja', 'red', 100, 0, false));
     // this.remote.conquerCell(new Cell(1, 'terra', 'red', 34, 0, false));

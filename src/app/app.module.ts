@@ -22,6 +22,7 @@ import { MyInfoComponent } from './my-info/my-info.component';
 import { CellInfoComponent } from './cell-info/cell-info.component';
 import { ChatComponent } from './chat/chat.component';
 import { RemoteControllerService } from './remote-controller.service';
+import { CellComponent } from './cell/cell.component';
 
 const appRoutes: Routes = [
   { path: 'home',         component: HomeComponent },
@@ -39,7 +40,8 @@ const appRoutes: Routes = [
     BoardComponent,
     MyInfoComponent,
     CellInfoComponent,
-    ChatComponent
+    ChatComponent,
+    CellComponent
   ],
   imports: [
     RouterModule.forRoot(
