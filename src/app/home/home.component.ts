@@ -23,10 +23,6 @@ export class HomeComponent implements OnInit {
   }
 
   enterTheRoom(form?: any) {
-    //  TODO: 서버에 쏘고..
-    //  TODO: 쏘는 동안 스피너 돌리다가..
-    //  TODO: 응답 오면 메인 페이지로 이동
-
     // console.log('HomeComponent.enterTheRoom', form.controls['roomId']);
     console.log('HomeComponent.room', this.room);
     console.log('HomeComponent.user', this.user);

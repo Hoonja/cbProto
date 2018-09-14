@@ -1,6 +1,6 @@
 <div id="hexa-map">
   <div *ngFor="let row of rows" [ngClass]="{'board-row': true, 'even': (row % 2 === 0? true: false), 'odd': (row % 2 === 1? true: false) }">
-    <div *ngFor="let col of cols" class="board-cell" [ngStyle]="{'background-color': room.cells[row * rows.length + col].team}" (click)="selectCell(row * rows.length + col)">
+    <div *ngFor="let col of cols" class="board-cell" [ngStyle]="{'background-color': room.cells[row * rows.length + col].team}" (click)="selectCell(row * rows.length + col)" >
       {{ row * rows.length + col }}
     </div>
   </div>

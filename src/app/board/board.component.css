@@ -16,3 +16,7 @@
   flex: 1;
   border: 1px blue solid;
 }
+
+.board-cell:hover {
+  background-color: orange;
+}
