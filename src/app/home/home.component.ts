@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 export class HomeComponent implements OnInit {
   room: Room = new Room('', 10, 10);
   user: User = new User('', 'red', 1000.0);
-  teams = ['red', 'yello', 'green', 'blue'];
+  teams = ['red', 'yellow', 'green', 'blue'];
 
   constructor(private router: Router) { }
 
