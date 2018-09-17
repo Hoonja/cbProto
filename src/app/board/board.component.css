@@ -18,5 +18,6 @@
 }
 
 .board-cell:hover {
-  background-color: orange;
+  /* background-color: orange; */
+  border: 2px dashed orange;
 }
