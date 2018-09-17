@@ -20,7 +20,8 @@
       </tr>
     </table>
     <div style="text-align: center;">
-      <button mat-flat-button color="warn" (click)="conquerCell()">Conquer</button>
+      <button mat-flat-button color="warn" (click)="conquerCell()" disabled *ngIf="!canPlay">Conquer</button>
+      <button mat-flat-button color="warn" (click)="conquerCell()" *ngIf="canPlay">Conquer</button>
     </div>
   </div>
   <div *ngIf="!cell">

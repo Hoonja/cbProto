@@ -9,11 +9,14 @@ import { Cell } from '../models/cell';
 export class CellInfoComponent implements OnInit {
 
   @Input() cell: Cell;
+  @Input() canPlay: boolean;
   @Output() conquer = new EventEmitter();
 
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log('CellInfoComponent.canPlay = ' + this.canPlay);
+  }
 
   conquerCell() {
     const val = prompt('공격에 사용할 비용을 입력하세요(' + this.cell.cost + ' 초과 필요)');

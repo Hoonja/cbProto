@@ -34,6 +34,11 @@
   flex: 1;
 }
 
+.spacer {
+  text-align: right;
+  flex: 1 1 auto;
+}
+
 app-my-info {
   min-height: 150px;
 }

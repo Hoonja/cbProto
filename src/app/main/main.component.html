@@ -1,11 +1,11 @@
-<mat-toolbar>
-  <!-- <button mat-button [matMenuTriggerFor]="appMenu">
-    메뉴
-  </button>
-  <mat-menu #appMenu="matMenu">
-    <button mat-menu-item>Exit</button>
-  </mat-menu> -->
-  <ng-container *ngIf="this.room">
+<ng-container *ngIf="room">
+  <mat-toolbar>
+    <!-- <button mat-button [matMenuTriggerFor]="appMenu">
+      메뉴
+    </button>
+    <mat-menu #appMenu="matMenu">
+      <button mat-menu-item>Exit</button>
+    </mat-menu> -->
     RoomId: {{ room.id }},
     누적 포인트: {{ room.value }},
     참여자: {{ roomUsers }} 명,
@@ -13,24 +13,28 @@
     <!-- <button mat-button (click)="inviteUser()">
       초대하기
     </button> -->
-  </ng-container>
-</mat-toolbar>
-
-<div class="main-container box-row">
-  <div class="game-board item">
-    <ng-container *ngIf="room">
+    <ng-container *ngIf="room.isCompleted">
+      <span class="spacer"><b style="color: brown;">이미 종료된 게임입니다.</b></span>
+    </ng-container>
+  </mat-toolbar>
+  
+  <div class="main-container box-row">
+    <div class="game-board item">
       <app-board [room]="room" (select)="selectCell($event)"></app-board>
-    </ng-container>    
+    </div>
+    <div class="game-sidebar">
+      <div class="item sidebar-my-info">
+        <app-my-info [user]="user"></app-my-info>
+      </div>
+      <div class="item sidebar-cell-info">
+        <app-cell-info [cell]="selectedCell" (conquer)="conquerCell($event)" [canPlay]="!room.isCompleted"></app-cell-info>
+      </div>
+      <div class="item sidebar-chat">
+        <app-chat (chatFired)="sendChat($event)" [chatList]="chatList"></app-chat>
+      </div>
+    </div>
   </div>
-  <div class="game-sidebar">
-    <div class="item sidebar-my-info">
-      <app-my-info [user]="user"></app-my-info>
-    </div>
-    <div class="item sidebar-cell-info">
-      <app-cell-info [cell]="selectedCell" (conquer)="conquerCell($event)"></app-cell-info>
-    </div>
-    <div class="item sidebar-chat">
-      <app-chat (chatFired)="sendChat($event)" [chatList]="chatList"></app-chat>
-    </div>
-  </div>
-</div>
+</ng-container>
+<ng-container *ngIf="!room">
+  방 정보를 불러오는 중입니다.
+</ng-container>
