@@ -6,7 +6,7 @@ import { Cell } from './models/cell';
 
 
 const SERVER_LOCAL_ADDR = 'localhost';
-const SERVER_TEST_ADDR = '192.168.10.56';
+const SERVER_TEST_ADDR = '192.168.10.104';
 export const Type = {
   ACK: 'ACK',
   CHAT: 'CHAT',
@@ -45,6 +45,7 @@ export class RemoteControllerService {
     // console.log('Connecting to remote server...');
     this.canPlay = false;
     let serverUrl;
+    console.log('window.location.href: ' + window.location.href);
     if (window.location.href.indexOf(SERVER_TEST_ADDR) >= 0) {
       serverUrl = 'http://' + SERVER_TEST_ADDR + ':4001';
     } else {
