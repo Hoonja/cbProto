@@ -19,5 +19,5 @@
 
 .board-cell:hover {
   /* background-color: orange; */
-  border: 2px dashed orange;
+  border: 2px dashed #FF33FC;
 }

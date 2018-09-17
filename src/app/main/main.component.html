@@ -6,10 +6,10 @@
     <mat-menu #appMenu="matMenu">
       <button mat-menu-item>Exit</button>
     </mat-menu> -->
-    RoomId: {{ room.id }},
-    누적 포인트: {{ room.value }},
-    참여자: {{ roomUsers }} 명,
-    남은 턴수: {{ room.turnsLeft === -1 ? '-' : room.turnsLeft }}
+    <span class="game-status">RoomId: {{ room.id }}</span>
+    <span class="game-status">누적 포인트: {{ room.value }}</span>
+    <span class="game-status">참여자: {{ roomUsers }} 명</span>
+    <span class="game-status">남은 턴수: {{ room.turnsLeft === -1 ? '-' : room.turnsLeft }}</span>
     <!-- <button mat-button (click)="inviteUser()">
       초대하기
     </button> -->

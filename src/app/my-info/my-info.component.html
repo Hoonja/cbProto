@@ -7,7 +7,7 @@
     </tr>
     <tr>
       <td class="first-column">Team</td>
-      <td>{{ user.team }}</td>
+      <td><span [ngStyle]="{'font-weight': 'bold', 'color': team.value }">{{ team.name }}</span></td>
     </tr>
     <tr>
       <td class="first-column">Money</td>

@@ -19,8 +19,8 @@
     <mat-form-field>
       <mat-label>진영을 선택하세요</mat-label>
       <mat-select placeholder="진영을 선택하세요" id="team" [(ngModel)]="user.team" name="team" required>
-        <mat-option *ngFor="let team of teams" [value]="team">
-          {{ team }}
+        <mat-option *ngFor="let team of teams" [value]="team.value">
+          {{ team.name }}
         </mat-option>
       </mat-select>
     </mat-form-field>
