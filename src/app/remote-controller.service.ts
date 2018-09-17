@@ -5,8 +5,8 @@ import { Chat } from './models/chat';
 import { Cell } from './models/cell';
 
 
-const SERVER_URL = 'http://localhost:3000';
-// const SERVER_URL = 'http://192.168.10.56:3000';
+const SERVER_LOCAL_ADDR = 'localhost';
+const SERVER_TEST_ADDR = '192.168.10.56';
 export const Type = {
   ACK: 'ACK',
   CHAT: 'CHAT',
@@ -44,7 +44,14 @@ export class RemoteControllerService {
   constructor() {
     // console.log('Connecting to remote server...');
     this.canPlay = false;
-    this.socket = io(SERVER_URL);
+    let serverUrl;
+    if (window.location.href.indexOf(SERVER_TEST_ADDR) >= 0) {
+      serverUrl = 'http://' + SERVER_TEST_ADDR + ':4001';
+    } else {
+      serverUrl = 'http://' + SERVER_LOCAL_ADDR + ':3000';
+    }
+    this.socket = io(serverUrl);
+    console.log('Connecting to ' + serverUrl);
   }
 
   onConnect() {
