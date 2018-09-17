@@ -1,11 +1,19 @@
 <mat-toolbar>
-  <button mat-button [matMenuTriggerFor]="appMenu">
+  <!-- <button mat-button [matMenuTriggerFor]="appMenu">
     메뉴
   </button>
   <mat-menu #appMenu="matMenu">
-    <button mat-menu-item>Settings</button>
-    <button mat-menu-item>Help</button>
-  </mat-menu>
+    <button mat-menu-item>Exit</button>
+  </mat-menu> -->
+  <ng-container *ngIf="this.room">
+    RoomId: {{ room.id }},
+    누적 포인트: {{ room.value }},
+    참여자: {{ roomUsers }} 명,
+    남은 턴수: {{ room.turnsLeft === -1 ? '-' : room.turnsLeft }}
+    <!-- <button mat-button (click)="inviteUser()">
+      초대하기
+    </button> -->
+  </ng-container>
 </mat-toolbar>
 
 <div class="main-container box-row">

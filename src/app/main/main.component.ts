@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { RemoteControllerService, Res } from '../remote-controller.service';
+import { RemoteControllerService, SMsg } from '../remote-controller.service';
 import { Room } from '../models/room';
 import { User } from '../models/user';
 import { Chat } from '../models/chat';
@@ -23,6 +23,7 @@ export class MainComponent implements OnInit {
   chatList = [];
   selectedCell: Cell;
   firstAttacked = false;
+  roomUsers = 0;
 
   constructor(private router: Router, private route: ActivatedRoute, private remote: RemoteControllerService) { }
 
@@ -55,29 +56,24 @@ export class MainComponent implements OnInit {
     });
   }
 
-  foo() {
-    console.log('foo');
-  }
-
   handleConnect(msg) {
-    console.log('MainComponent.handleConnect', msg);
     this.enterRoom();
   }
 
   handleDisconnect(msg) {
-    console.warn('MainComponent.handleDisconnect', msg);
-    this.foo();
+    console.warn('MainComponent.handleDisconnect is not implemented yet.', msg);
   }
 
   handleMsg(msg) {
     switch (msg.cmd) {
-      case Res.ROOM_INFO:
+      case SMsg.ROOM_INFO:
         for (let i = 0; i < msg.data.room.cells.length; i++) {
           if (!msg.data.room.cells[i].occupied) {
             msg.data.room.cells[i] = new Cell(i, '', '#eeeeee', 10, 0, false);
           }
         }
         this.room = msg.data.room;
+        this.roomUsers = this.room.users ? this.room.users.length : 0;
         console.log('MainComponent.handleMsg: this.room', this.room);
         const ownedCell = this.room.cells.find(item => item.team === this.user.team);
         if (ownedCell) {
@@ -85,12 +81,20 @@ export class MainComponent implements OnInit {
           console.log('이미 정복한 셀이 있음');
         }
         break;
-      case Res.CONQUER_CELL_FAILED:
+      case SMsg.ROOM_NEWUSER:
+        this.chatList.push(msg.userId + ' 님이 입장했습니다.');
+        this.roomUsers = msg.data.roomUsers;
+        break;
+      case SMsg.ROOM_EXITUSER:
+        this.chatList.push(msg.userId + ' 님이 퇴장하셨습니다.');
+        this.roomUsers--;
+        break;
+      case SMsg.CONQUER_CELL_FAILED:
         this.updateCellInfo(msg.data.cell);
         alert('정복에 실패했습니다. ㅠㅠ');
         this.chatList.push(msg.data.cell.id + '번 땅 정복에 실패했습니다');
         break;
-      case Res.CONQUER_CELL_SUCCESS:
+      case SMsg.CONQUER_CELL_SUCCESS:
         this.updateCellInfo(msg.data.cell);
         this.user.money = this.user.money - msg.data.cell.cost;
         this.room.value = this.room.value + msg.data.cell.cost;
@@ -98,22 +102,24 @@ export class MainComponent implements OnInit {
         this.firstAttacked = true;
         this.chatList.push(msg.data.cell.id + '번 땅 정복에 성공했습니다');
         break;
-      case Res.UPDATE_CELL:
+      case SMsg.UPDATE_CELL:
         this.updateCellInfo(msg.data.cell);
         this.room.value = msg.data.roomValue;
         console.log('방정보 갱신', this.room);
         const cell = msg.data.cell;
         this.chatList.push(cell.ownerId + '님이 ' + cell.id + '번 땅을 정복했습니다');
         break;
-      case Res.GOTO_FINAL:
+      case SMsg.GOTO_FINAL:
         if (msg.data.room.id === this.room.id) {
           this.chatList.push('잠시후 전투가 끝납니다. (남은 턴수: ' + msg.data.room.turnsLeft + ')');
+          this.room.turnsLeft = msg.data.room.turnsLeft;
         }
         break;
-      case Res.GAME_OVER:
+      case SMsg.GAME_OVER:
         if (msg.data.room.id === this.room.id) {
           alert('전투가 끝났습니다(총 방에 적립된 비용: ' + msg.data.room.value + ')');
           this.chatList.push('전투가 끝났습니다(총 방에 적립된 비용: ' + msg.data.room.value + ')');
+          this.room.turnsLeft = 0;
         }
         break;
       default:
@@ -123,8 +129,8 @@ export class MainComponent implements OnInit {
   }
 
   handleChat(chat: Chat) {
-    console.log(`MainComponent.handleChat: userId(${chat.userId}), roomId(${chat.roomId}), text(${chat.text})`);
-    this.chatList.push(chat.text);
+    console.log(`MainComponent.handleChat: userId(${chat.userId}), roomId(${chat.roomId}), text(${chat.data.text})`);
+    this.chatList.push(chat.data.text);
   }
 
   sendChat(e) {
@@ -235,5 +241,9 @@ export class MainComponent implements OnInit {
         this.selectedCell = new Cell(e.index, '없음', '없음', CELL_INIT_VALUE, 0, false);
       }
     }
+  }
+
+  inviteUser() {
+    alert('미구현..');
   }
 }

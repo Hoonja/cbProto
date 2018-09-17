@@ -13,15 +13,15 @@ export const Type = {
   MSG: 'MSG'
 };
 
-export const Cmd = {
+export const CMsg = {
   ROOM: 'ROOM',
-  ROOM_NEWUSER: 'ROOM_NEWUSER',
-  ROOM_EXITUSER: 'ROOM_EXITUSER',
   CONQUER_CELL: 'CONQUER_CELL'
 };
 
-export const Res = {
+export const SMsg = {
   ROOM_INFO: 'ROOM_INFO',
+  ROOM_NEWUSER: 'ROOM_NEWUSER',
+  ROOM_EXITUSER: 'ROOM_EXITUSER',
   CONQUER_CELL_SUCCESS: 'CONQUER_CELL_SUCCESS',
   CONQUER_CELL_FAILED: 'CONQUER_CELL_FAILED',
   UPDATE_CELL: 'UPDATE_CELL',
@@ -45,7 +45,7 @@ export class RemoteControllerService {
     // console.log('Connecting to remote server...');
     this.canPlay = false;
     let serverUrl;
-    console.log('window.location.href: ' + window.location.href);
+
     if (window.location.href.indexOf(SERVER_TEST_ADDR) >= 0) {
       serverUrl = 'http://' + SERVER_TEST_ADDR + ':4001';
     } else {
@@ -87,7 +87,7 @@ export class RemoteControllerService {
     this.userId = data.user.id;
     this.roomId = data.room.id;
     this.sendMsg({
-      cmd: Cmd.ROOM,
+      cmd: CMsg.ROOM,
       data: data
     });
   }
@@ -110,13 +110,13 @@ export class RemoteControllerService {
   }
 
   sendChat(chat: string) {
-    this.socket.emit(Type.CHAT, new Chat(this.userId, this.roomId, chat));
+    this.socket.emit(Type.CHAT, new Chat(this.userId, this.roomId, { text: chat }));
   }
 
   conquerCell(cell: Cell) {
     // console.log(`RemoteControllerService.conquerCell: cellId(${cell.id}), cost(${cell.cost})`);
     this.sendMsg({
-      cmd: Cmd.CONQUER_CELL,
+      cmd: CMsg.CONQUER_CELL,
       data: cell
     });
   }
