@@ -28,6 +28,7 @@ export class MainComponent implements OnInit {
   constructor(private router: Router, private route: ActivatedRoute, private remote: RemoteControllerService) { }
 
   ngOnInit() {
+    console.log('MainComponent.ngOnInit');
     try {
       this.tempRoom = JSON.parse(this.route.snapshot.paramMap.get('room'));
       this.user = JSON.parse(this.route.snapshot.paramMap.get('user'));
@@ -83,11 +84,16 @@ export class MainComponent implements OnInit {
         break;
       case SMsg.ROOM_NEWUSER:
         this.chatList.push(msg.userId + ' 님이 입장했습니다.');
-        this.roomUsers = msg.data.roomUsers;
+        if (msg.roomId === this.room.id) {
+          this.roomUsers = msg.data.roomUsers;
+        }
         break;
       case SMsg.ROOM_EXITUSER:
         this.chatList.push(msg.userId + ' 님이 퇴장하셨습니다.');
-        this.roomUsers--;
+        console.log(`msg.roomId: ${msg.roomId}, this.room.id: ${this.room.id}`);
+        if (msg.roomId === this.room.id) {
+          this.roomUsers--;
+        }
         break;
       case SMsg.CONQUER_CELL_FAILED:
         this.updateCellInfo(msg.data.cell);
@@ -120,6 +126,7 @@ export class MainComponent implements OnInit {
           alert('전투가 끝났습니다(총 방에 적립된 비용: ' + msg.data.room.value + ')');
           this.chatList.push('전투가 끝났습니다(총 방에 적립된 비용: ' + msg.data.room.value + ')');
           this.room.turnsLeft = 0;
+          console.log('Room 정보', this.room);
         }
         break;
       default:

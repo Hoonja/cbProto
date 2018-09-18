@@ -14,7 +14,7 @@ export const Type = {
 };
 
 export const CMsg = {
-  ROOM: 'ROOM',
+  ROOM_ENTER: 'ROOM_ENTER',
   CONQUER_CELL: 'CONQUER_CELL'
 };
 
@@ -87,7 +87,7 @@ export class RemoteControllerService {
     this.userId = data.user.id;
     this.roomId = data.room.id;
     this.sendMsg({
-      cmd: CMsg.ROOM,
+      cmd: CMsg.ROOM_ENTER,
       data: data
     });
   }
